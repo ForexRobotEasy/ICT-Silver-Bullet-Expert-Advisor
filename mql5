@@ -1,0 +1,95 @@
+mql5
+//+---------------------------------------------------+
+//|                      EA Header                    |
+//|     Developer's Site: forexroboteasy.com         |
+//|     Developer: Forex Robot Easy Team              |
+//+---------------------------------------------------+
+
+// Define the input parameters
+input string TradeComment = 'ICT Silver Bullet EA'; // Trade comment for identification
+input double Lots = 0.1; // Trade volume
+input double StopLoss = 50; // Stop loss level in pips
+input double TakeProfit = 100; // Take profit level in pips
+input bool PartialCloseEnabled = true; // Enable partial closing of trades
+input double PartialClosePercentage = 50; // Percentage of trade volume to close partially
+input bool TrailingStopEnabled = true; // Enable trailing stop loss
+input double TrailingStopDistance = 30; // Trailing stop loss distance in pips
+input bool BreakevenEnabled = true; // Enable breakeven functionality
+input double BreakevenDistance = 50; // Breakeven distance in pips
+
+// Define the KillZone parameters
+input int KillZoneStartHour = 8; // Start hour of the KillZone
+input int KillZoneEndHour = 10; // End hour of the KillZone
+
+// Define the Fair Value Gap (FVG) parameters
+input double FVGThreshold = 0.01; // Minimum price difference to consider as FVG
+
+//+---------------------------------------------------+
+//|                  OnTick Event                     |
+//+---------------------------------------------------+
+void OnTick()
+{
+   // Check if the current time is within the KillZone
+   if (IsWithinKillZone())
+   {
+      // Check if there is a FVG within the KillZone
+      if (IsFVGPresent())
+      {
+         // Place a trade based on the FVG
+         PlaceTrade();
+      }
+   }
+}
+
+// Check if the current time is within the KillZone
+bool IsWithinKillZone()
+{
+   datetime currentTime = TimeCurrent();
+   datetime killZoneStart = StrToTime(TimeToStr(currentTime, TIME_DATE) + ' ' + IntegerToString(KillZoneStartHour) + ':00:00');
+   datetime killZoneEnd = StrToTime(TimeToStr(currentTime, TIME_DATE) + ' ' + IntegerToString(KillZoneEndHour) + ':00:00');
+   
+   return (currentTime >= killZoneStart && currentTime <= killZoneEnd);
+}
+
+// Check if there is a Fair Value Gap (FVG) within the KillZone
+bool IsFVGPresent()
+{
+   // Implement logic to identify FVG within the KillZone
+   return false;
+}
+
+// Place a trade based on the FVG
+void PlaceTrade()
+{
+   // Implement logic to execute trade based on the FVG
+}
+
+//+---------------------------------------------------+
+//|                  Trade Management                 |
+//+---------------------------------------------------+
+void OnTrade()
+{
+   // Check if there are open trades
+   if (OrdersTotal() > 0)
+   {
+      // Implement logic for managing open trades
+   }
+}
+
+//+---------------------------------------------------+
+//|                  Helper Functions                 |
+//+---------------------------------------------------+
+double CalculatePips(double price1, double price2)
+{
+   return MathAbs(price1 - price2) / Point;
+}
+
+// Add additional helper functions as needed
+
+//+---------------------------------------------------+
+//|               Program Termination                 |
+//+---------------------------------------------------+
+void OnDeinit(const int reason)
+{
+   // Implement logic for program termination
+}
